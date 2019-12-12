@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>轮播图</title>
+	<link rel="stylesheet" href="style.css">
+	<script src="animate.js"></script>
+</head>
+<body>
+	<div class="dingwei">
+		<div class="tupian"><img src="images/laba.png" id="h"></div>
+		<div class="ziti"><span id="piao">[温馨提示]最近有不少不法分子在网上骗人，请大家注意！！！</span></div>
+		
+	</div>
+	<div class="box" id="box">
+		<div class="slider" id="slider">
+			<div class="slide"><img src="images/5.png"></div>
+			<div class="slide"><img src="images/1.png"></div>
+			<div class="slide"><img src="images/2 .png"></div>
+			<div class="slide"><img src="images/3.png"></div>
+			<div class="slide"><img src="images/4.png"></div>
+			<div class="slide"><img src="images/5.png"></div>
+			<div class="slide"><img src="images/1.png"></div>
+		</div>
+		<span id="left"><</span>
+		<span id="right">></span>
+		<ul class="nav" id="nav">
+			<li class="active">1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+			<li>5</li>
+		</ul>
+	</div>
+	<script type="text/javascript">
+		var box=document.getElementById('box');
+		var oNavlist=document.getElementById('nav').children;
+		var slider=document.getElementById('slider');
+		var left=document.getElementById('left');
+		var right=document.getElementById('right');
+		var index=1;
+		var timer;
+		var isMoving=false;
+		box.onmouseover=function(){
+			animate(left,{opacity:50})
+			animate(right,{opacity:50})
+			clearInterval(timer)
+		}
+		box.onmouseout=function(){
+			animate(left,{opacity:0})
+			animate(right,{opacity:0})
+			timer=setInterval(next,3000);
+		 }
+
+		right.onclick=next;
+		left.onclick=prev;
+		for (var i=0; i<oNavlist.length; i++) {
+			oNavlist[i].index=i;
+			oNavlist[i].onclick=function(){
+				index=this.index+1;
+				navmove();
+				animate(slider,{left:-1200*index});
+			}
+		}
+		function next(){
+			if(isMoving){
+				return;
+			}
+			isMoving=true;
+			index++;
+			navmove();
+			animate(slider,{left:-1200*index},function(){
+				if(index==6){
+					slider.style.left='-1200px';
+					index=1;
+				}
+				isMoving=false;
+			});
+		}
+		function prev(){
+			if(isMoving){
+				return;
+			}
+			isMoving=true;
+			index--;
+			navmove();
+			animate(slider,{left:-1200*index},function(){
+				if(index==0){
+					slider.style.left='-6000px';
+					index=5;
+				}
+				isMoving=false;
+			})
+		}
+		function navmove(){
+			for(var i=0;i<oNavlist.length;i++){
+				oNavlist[i].className="";
+			}
+			if(index>5){
+				oNavlist[0].className="active";
+			}else if(index<=0){
+				oNavlist[4].className="active";
+			}else{
+				oNavlist[index-1].className="active";
+			}
+		}
+		
+		timer=setInterval(next,3000);
+		var box1=document.getElementById('piao');
+		
+		var tim=setInterval(function(){
+			var now=parseInt(getStyle(box1,"left"));
+			box1.style.left=now-1+"px";
+			if(now==-333){
+				box1.style.left=1000+"px";
+				now=1000;
+			}
+		},10)
+	</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
